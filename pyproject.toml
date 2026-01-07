@@ -1,0 +1,36 @@
+[project]
+name = "telecom-ml-framework"
+version = "1.0.0"
+description = "Production-ready ML project framework for telecom use cases with domain-informed specifications"
+authors = [
+    { name = "Adityo Nugroho", email = "adityo.nugroho.id@gmail.com" }
+]
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.11"
+keywords = ["telecom", "machine-learning", "framework", "template", "ml-ops"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+]
+
+# This framework itself has no runtime dependencies
+# Dependencies are specified in template/pyproject.toml for projects created from template
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/adityonugrohoid/telecom-ml-framework"
+Documentation = "https://github.com/adityonugrohoid/telecom-ml-framework/tree/main/docs"
+Repository = "https://github.com/adityonugrohoid/telecom-ml-framework"
+Issues = "https://github.com/adityonugrohoid/telecom-ml-framework/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
