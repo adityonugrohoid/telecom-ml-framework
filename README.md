@@ -1,133 +1,110 @@
+<div align="center">
+
 # Telecom ML Framework
 
-> A production-ready framework for building AI/ML solutions to real-world telecom challenges, emphasizing domain expertise and practical problem-solving.
-
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Framework Status](https://img.shields.io/badge/status-stable-green.svg)](https://github.com)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## 📋 Table of Contents
+**Spec-first ML project templates and domain-informed data generators for 6 telecom use cases**
 
-- [What Is This?](#what-is-this)
-- [Who Should Use This?](#who-should-use-this)
-- [What's Included](#whats-included)
-- [Quick Start](#quick-start)
-- [Use Cases](#use-cases)
+[Getting Started](#getting-started) | [Usage](#usage) | [Architecture](#architecture)
+
+</div>
+
+---
+
+## Table of Contents
+
+- [The Problem](#the-problem)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Architecture](#architecture)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Usage](#usage)
+- [How It Works](#how-it-works)
+- [Architectural Decisions](#architectural-decisions)
 - [Project Structure](#project-structure)
-- [Documentation](#documentation)
-- [Philosophy](#philosophy)
+- [Related Projects](#related-projects)
 - [License](#license)
+- [Author](#author)
 
-## What Is This?
+## The Problem
 
-**This is a FRAMEWORK, not an implementation.** 
+### Telecom ML Projects Lack a Shared Starting Point
 
-The Telecom ML Framework provides:
+Starting a telecom ML project from scratch means repeatedly solving the same problems: how to frame a business problem as an ML task, which features to engineer without leaking future data, how to generate realistic synthetic data when production data is proprietary, and what evaluation metrics a network ops stakeholder actually cares about.
 
-✅ **6 Production-Ready ML Project Templates** covering the most common telecom AI/ML use cases  
-✅ **Complete Technical Specifications** with problem framing, data requirements, and model architectures  
-✅ **Domain-Informed Data Generators** embedding real telecom physics (SINR, QoE, congestion patterns)  
-✅ **Unified Technical Standards** ensuring consistency across projects (dependencies, plotting, interpretability)  
-✅ **Portfolio Documentation** demonstrating domain expertise and ML problem-solving approach
+### The Solution
 
-**What this is NOT:**
-- ❌ Not a trained model or production system
-- ❌ Not a Python package to install via pip
-- ❌ Not a data science library with APIs
+This framework provides 6 fully-specified use cases covering the most common telecom AI/ML problem types (classification, regression, anomaly detection, forecasting, root cause analysis, reinforcement learning), each paired with a domain-informed data generator and a standardised project template that scaffolds the full pipeline from data to SHAP interpretability.
 
-This framework serves as both a **project template generator** for rapid ML project creation and a **portfolio documentation hub** showcasing telecom domain expertise applied to ML.
+## Features
 
-## Who Should Use This?
+- **6 use case specifications** - complete problem framing, forbidden features (temporal leakage prevention), model architecture recommendations, and SHAP interpretability requirements for each
+- **Domain-informed data generators** - hand-crafted synthetic data embedding real telecom physics: SINR calculations, Shannon capacity bounds, QoE MOS scores, congestion patterns, diurnal traffic cycles
+- **Project template** - `template/` directory with `src/`, `notebooks/`, `data/`, and `tests/` layouts; copy or generate via script
+- **Automated project creation** - `examples/create_project.py` scaffolds a named project from the template, renames the Python package, and substitutes placeholders in one command
+- **Unified technical standards** - SHAP-compatible dependency pinning (`numpy<2.0`, `xgboost<2.0`, `numba>=0.59.0`), Seaborn plotting conventions, Ruff linting, uv-managed environments across all generated projects
 
-This framework is designed for:
+## Tech Stack
 
-### 🎯 Primary Audience
-- **Telecom professionals** transitioning to AI/ML who need structured project templates
-- **Data scientists** entering telecom domain who need problem framing guidance
-- **ML engineers** building telecom analytics solutions
-- **Portfolio builders** demonstrating end-to-end ML thinking
+| Component | Technology |
+|-----------|------------|
+| Language | Python 3.11+ |
+| Package manager | uv |
+| ML algorithms | XGBoost, LightGBM, CatBoost, Prophet, ARIMA, LSTM, Isolation Forest, Q-Learning |
+| Interpretability | SHAP |
+| Linting | Ruff |
+| Build backend | Hatchling |
 
-### 💡 What You'll Learn
-- How to frame business problems as ML tasks
-- Domain-driven feature engineering for telecom data
-- Proper handling of temporal leakage in time-series problems
-- Model interpretability for business stakeholders
-- Production-ready project structure and standards
+## Architecture
 
-## What's Included
+```mermaid
+graph TD
+    A["docs/\n(6 use case specs)"] --> B["examples/create_project.py\n(template instantiation)"]
+    C["template/\n(project scaffold)"] --> B
+    B --> D["Generated Project\n(src/, notebooks/, data/, tests/)"]
+    D --> E["data_generator.py\n(domain-informed synthetic data)"]
+    E --> F["features.py\nmodels.py\n(pipeline)"]
+    F --> G["SHAP interpretability\n(business output)"]
 
-### 🗂️ Framework Components
-
-```
-telecom-ml-framework/
-├── template/                    # Project template (copy this to start)
-│   ├── src/__project_name__/   # Python package structure
-│   ├── notebooks/              # Jupyter notebook templates
-│   ├── data/                   # Data directories
-│   ├── tests/                  # Test templates
-│   └── pyproject.toml          # Dependencies with SHAP compatibility
-│
-├── docs/                        # Documentation
-│   ├── USE_CASES.md            # Index of all 6 use cases
-│   ├── GETTING_STARTED.md      # Detailed usage guide
-│   ├── PORTFOLIO_OVERVIEW.md   # Portfolio context
-│   └── 01-06 use case specs    # Individual specifications
-│
-└── examples/                    # Usage examples
-    └── create_project.py       # Template instantiation script
+    style A fill:#0f3460,color:#fff
+    style B fill:#16213e,color:#fff
+    style C fill:#0f3460,color:#fff
+    style D fill:#533483,color:#fff
+    style E fill:#16213e,color:#fff
+    style F fill:#16213e,color:#fff
+    style G fill:#533483,color:#fff
 ```
 
-### 📚 6 Documented Use Cases
-
-| # | Use Case | ML Type | Key Algorithms | Status |
-|:---:|:---|:---|:---|:---:|
-| **UC1** | [Churn Prediction](docs/01-CHURN-PREDICTION.md) | Binary Classification | XGBoost, LightGBM | ✅ Spec Complete |
-| **UC2** | [Root Cause Analysis](docs/02-ROOT-CAUSE-ANALYSIS.md) | Ranking / Causal Inference | Gradient Boosting, GNN | ✅ Spec Complete |
-| **UC3** | [Anomaly Detection](docs/03-ANOMALY-DETECTION.md) | Unsupervised Learning | Isolation Forest, LSTM AE | ✅ Spec Complete |
-| **UC4** | [QoE Prediction](docs/04-QOE-PREDICTION.md) | Regression | LightGBM, CatBoost | ✅ Spec Complete |
-| **UC5** | [Capacity Forecasting](docs/05-CAPACITY-FORECASTING.md) | Time-Series Forecasting | Prophet, ARIMA, LSTM | ✅ Spec Complete |
-| **UC6** | [Network Optimization](docs/06-NETWORK-OPTIMIZATION.md) | Reinforcement Learning | Q-Learning, Genetic Algo | ✅ Spec Complete |
-
-[📖 View detailed use case documentation →](docs/USE_CASES.md)
-
-## Quick Start
+## Getting Started
 
 ### Prerequisites
 
-- **Python 3.11+** ([download](https://www.python.org/downloads/))
-- **uv** package manager ([install](https://github.com/astral-sh/uv))
+- Python 3.11+
+- uv package manager ([install](https://github.com/astral-sh/uv))
 
 ```bash
-# Install uv if not already installed
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-### Method 1: Manual Template Copy (Recommended for Learning)
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/adityonugrohoid/telecom-ml-framework.git
+   cd telecom-ml-framework
+   ```
+
+2. No runtime dependencies are needed for the framework itself. Dependencies for generated projects are managed via `template/pyproject.toml` and installed inside each project with `uv sync`.
+
+## Usage
+
+### Option 1: Automated (recommended)
 
 ```bash
-# 1. Copy the template directory
-cp -r template/ ../my-churn-prediction
-cd ../my-churn-prediction
-
-# 2. Customize the project
-# - Rename src/__project_name__/ to your project name
-# - Update pyproject.toml with your details
-# - Customize data_generator.py for your use case
-
-# 3. Install dependencies
-uv sync
-
-# 4. Generate synthetic data
-uv run python -m your_project_name.data_generator
-
-# 5. Start working!
-uv run jupyter lab notebooks/
-```
-
-### Method 2: Using the Example Script (Automated)
-
-```bash
-# Create a new project from template
 python examples/create_project.py \
   --name churn-prediction \
   --use-case UC1 \
@@ -136,206 +113,125 @@ python examples/create_project.py \
 cd ../my-projects/churn-prediction
 uv sync
 uv run python -m churn_prediction.data_generator
+uv run jupyter lab notebooks/
 ```
 
-### Next Steps
+### Option 2: Manual template copy
 
-1. **Read the documentation**: Start with [GETTING_STARTED.md](docs/GETTING_STARTED.md)
-2. **Choose a use case**: Review [USE_CASES.md](docs/USE_CASES.md) to select your focus
-3. **Customize the template**: Adapt data generation and features to your needs
-4. **Build your portfolio**: Each project becomes a standalone repository
+```bash
+cp -r template/ ../my-churn-prediction
+cd ../my-churn-prediction
 
-## Use Cases
+# Rename src/__project_name__/ to your package name
+mv src/__project_name__ src/churn_prediction
 
-### UC1: Churn Prediction
-**Business Problem**: Which customers are likely to cancel their subscription?  
-**ML Approach**: Binary classification with temporal feature engineering  
-**Key Challenge**: Preventing future data leakage, handling class imbalance  
-**Output**: Churn probability + SHAP interpretability for retention campaigns
+# Update pyproject.toml with your project name
+uv sync
+uv run python -m churn_prediction.data_generator
+```
 
-[📄 Full Specification →](docs/01-CHURN-PREDICTION.md)
+Available use cases (`--use-case` values):
 
----
+| Code | Use Case | ML Type |
+|------|----------|---------|
+| UC1 | Churn Prediction | Binary Classification (XGBoost, LightGBM) |
+| UC2 | Root Cause Analysis | Ranking / Causal Inference (Gradient Boosting, GNN) |
+| UC3 | Anomaly Detection | Unsupervised (Isolation Forest, LSTM Autoencoder) |
+| UC4 | QoE Prediction | Regression (LightGBM, CatBoost) |
+| UC5 | Capacity Forecasting | Time-Series (Prophet, ARIMA, LSTM) |
+| UC6 | Network Optimization | Reinforcement Learning (Q-Learning, Genetic Algorithms) |
 
-### UC2: Root Cause Analysis
-**Business Problem**: When network issues occur, what was the original cause?  
-**ML Approach**: Ranking/classification on event-alarm-ticket causal chains  
-**Key Challenge**: Multi-label problem with correlated failure modes  
-**Output**: Ranked root cause hypotheses with causal graphs
+See [`docs/USE_CASES.md`](docs/USE_CASES.md) for selection guidance and [`docs/GETTING_STARTED.md`](docs/GETTING_STARTED.md) for a full walkthrough.
 
-[📄 Full Specification →](docs/02-ROOT-CAUSE-ANALYSIS.md)
+## How It Works
 
----
+### 1. Use Case Specification
 
-### UC3: Anomaly Detection
-**Business Problem**: Detect cell towers behaving abnormally before they fail  
-**ML Approach**: Unsupervised learning on multivariate KPI time-series  
-**Key Challenge**: Defining "normal" in highly dynamic networks  
-**Output**: Anomaly scores and severity ranking
+Each use case in `docs/` defines: the business problem, ML task type, input features, explicitly forbidden features (to prevent temporal leakage), label definition, model architecture, evaluation metrics, notebook structure, and SHAP output requirements. These specs drive both the data generator and the model implementation.
 
-[📄 Full Specification →](docs/03-ANOMALY-DETECTION.md)
+### 2. Domain-Informed Data Generation
 
----
+Each generated project's `data_generator.py` is pre-configured for its use case. The generators embed telecom physics directly:
 
-### UC4: QoE Prediction
-**Business Problem**: Predict user-perceived quality from network conditions  
-**ML Approach**: Regression on session-level features (throughput, latency, loss)  
-**Key Challenge**: QoE is subjective and application-dependent  
-**Output**: Predicted MOS score and QoE class
+- UC1 (Churn): QoE degradation trajectories over 30/60/90-day windows with controlled class imbalance
+- UC3 (Anomaly): Multivariate KPI time-series with realistic diurnal cycles; anomalies introduced as SINR drops or throughput collapses
+- UC5 (Capacity): Traffic load series with weekend effects, growth trends, and confidence-interval annotations
+- UC6 (Optimization): State-action-reward environment modelling parameter changes and their delayed KPI effects
 
-[📄 Full Specification →](docs/04-QOE-PREDICTION.md)
+### 3. Template Instantiation
 
----
+`examples/create_project.py` copies `template/`, renames `src/__project_name__/` to the user's package name, and substitutes placeholders in `pyproject.toml`, `README.md`, `QUICKSTART.md`, and all Python source files in one pass.
 
-### UC5: Capacity Forecasting
-**Business Problem**: Predict future network load to plan capacity expansions  
-**ML Approach**: Time-series forecasting with seasonal decomposition  
-**Key Challenge**: Capturing diurnal patterns, weekend effects, growth trends  
-**Output**: Load forecasts with confidence intervals
+## Architectural Decisions
 
-[📄 Full Specification →](docs/05-CAPACITY-FORECASTING.md)
+### 1. Spec-first, no implementation
 
----
+**Decision:** This repo ships specifications and templates only, not trained models or a pip-installable library.
 
-### UC6: Network Optimization
-**Business Problem**: Recommend parameter adjustments to improve KPIs  
-**ML Approach**: Reinforcement learning with state-action-reward formulation  
-**Key Challenge**: Delayed rewards, exploration vs exploitation  
-**Output**: Recommended actions and expected KPI improvements
+**Reasoning:** Production telecom data is proprietary. Starting with a clear ML problem specification and a realistic (but hand-crafted) synthetic dataset is more honest and more reproducible than training on an off-the-shelf public dataset that does not reflect real network behaviour. Each implementation lives in its own standalone repo.
 
-[📄 Full Specification →](docs/06-NETWORK-OPTIMIZATION.md)
+### 2. uv over pip/conda
+
+**Decision:** All template projects use uv for dependency management.
+
+**Reasoning:** uv resolves and installs in seconds vs minutes, produces deterministic lockfiles, and avoids the environment pollution common with conda. SHAP's compatibility constraints (`numpy<2.0`, `xgboost<2.0`) make deterministic pinning essential.
+
+### 3. SHAP compatibility pinning
+
+**Decision:** `template/pyproject.toml` pins `numpy<2.0`, `xgboost<2.0`, and `numba>=0.59.0` as hard constraints.
+
+**Reasoning:** SHAP 0.44-0.45 breaks silently with numpy 2.x, producing NaN explanations. The pinning is explicit in the template so every generated project inherits it without debugging this the first time.
+
+### 4. Hand-crafted data generators over generic tools
+
+**Decision:** Each use case ships its own `data_generator.py` rather than using Faker or SDV.
+
+**Reasoning:** Generic synthetic data tools do not know that LTE SINR follows a specific distribution, that QoE MOS is bounded by application type, or that capacity load has diurnal periodicity. The hand-crafted generators embed these constraints so that derived features and model outputs are physically plausible, demonstrating domain expertise in the process.
 
 ## Project Structure
 
-Each project created from this framework follows this structure:
-
 ```
-your-project-name/
-├── README.md                    # Project-specific documentation
-├── QUICKSTART.md                # Quick setup guide
-├── CONTRIBUTING.md              # Contribution guidelines
-├── pyproject.toml               # Dependencies (uv-managed)
-├── .gitignore                   # Python + data exclusions
-│
-├── data/
-│   ├── raw/                     # Generated synthetic data
-│   └── processed/               # Feature-engineered datasets
-│
-├── src/your_project_name/
-│   ├── __init__.py
-│   ├── config.py                # Centralized configuration
-│   ├── data_generator.py        # Domain-informed data generation
-│   ├── features.py              # Feature engineering pipeline
-│   └── models.py                # ML model implementations
-│
-├── notebooks/
-│   └── 01_analysis.ipynb        # Main analysis notebook
-│
-└── tests/
-    └── test_data_quality.py     # Data validation tests
+telecom-ml-framework/
+|-- docs/
+|   |-- USE_CASES.md              # Comparison and selection guide for all 6 use cases
+|   |-- GETTING_STARTED.md        # Step-by-step first project walkthrough
+|   |-- PORTFOLIO_OVERVIEW.md     # Portfolio context
+|   |-- 01-CHURN-PREDICTION.md    # Use case specification
+|   |-- 02-ROOT-CAUSE-ANALYSIS.md
+|   |-- 03-ANOMALY-DETECTION.md
+|   |-- 04-QOE-PREDICTION.md
+|   |-- 05-CAPACITY-FORECASTING.md
+|   `-- 06-NETWORK-OPTIMIZATION.md
+|
+|-- template/                     # Copy this to start a new project
+|   |-- src/__project_name__/     #   Python package (renamed by create_project.py)
+|   |-- notebooks/                #   Jupyter notebook layout
+|   |-- data/                     #   raw/ and processed/ directories
+|   |-- tests/                    #   Data quality test stubs
+|   `-- pyproject.toml            #   Dependencies with SHAP compatibility constraints
+|
+|-- examples/
+|   `-- create_project.py         # Automated project scaffolding script
+|
+`-- pyproject.toml                # Framework package metadata (no runtime deps)
 ```
 
-## Documentation
+## Related Projects
 
-### 📖 Core Documentation
-- **[Getting Started Guide](docs/GETTING_STARTED.md)** - Step-by-step first project walkthrough
-- **[Use Cases Index](docs/USE_CASES.md)** - Comparison and selection guide for all 6 use cases
-- **[Portfolio Overview](docs/PORTFOLIO_OVERVIEW.md)** - Context and career transition narrative
-
-### 🔧 Technical Specifications
-Each use case has a detailed specification document covering:
-- Objective and business context
-- ML problem framing
-- Input features and forbidden data (temporal leakage prevention)
-- Label definitions
-- Model architecture recommendations
-- Evaluation metrics
-- Notebook structure and plotting standards
-- SHAP interpretability requirements
-
-### 📝 Template Documentation
-- **[Template README](template/README.md)** - How to use the template
-- **[Template Quickstart](template/QUICKSTART.md)** - Fast setup commands
-- **[Contributing Guide](template/CONTRIBUTING.md)** - For collaborative projects
-
-## Philosophy
-
-### Domain Expertise Over Code Complexity
-
-This framework emphasizes:
-
-✅ **Problem Framing** - Translating business problems into well-defined ML tasks  
-✅ **Domain Knowledge** - Embedding telecom physics in data and features  
-✅ **Interpretability** - SHAP explanations for business stakeholders  
-✅ **Practical Solutions** - Fit-for-purpose algorithms, not bleeding-edge research  
-✅ **End-to-End Thinking** - Data → Features → Model → Insights → Impact
-
-### Why Synthetic Data?
-
-Production telecom data is proprietary and sensitive. Instead of using off-the-shelf synthetic data tools, this framework provides **hand-crafted data generators** that:
-
-- Embed real telecom physics (SINR, Shannon capacity, congestion patterns)
-- Control data quality and realism (class imbalance, temporal patterns)
-- Maintain interpretability (every data point has a clear causal story)
-- Demonstrate domain expertise in how signals propagate and networks behave
-
-### Technical Standards
-
-All templates enforce:
-- **Python 3.11+** for modern language features
-- **uv** for fast, deterministic dependency management
-- **SHAP-compatible versions**: `numpy<2.0`, `xgboost<2.0`, `numba>=0.59.0`
-- **Unified plotting**: Seaborn with context switching (notebook vs presentation)
-- **Testing**: pytest for data quality and pipeline validation
-- **Linting**: Ruff for code quality
-
-## Version History
-
-### v1.0.0 (2025-01-07) - Framework Complete
-- ✅ 6 use cases fully specified with problem framing
-- ✅ Production-ready project template
-- ✅ Domain-informed data generation helpers
-- ✅ Unified technical standards (SHAP compatibility, plotting)
-- ✅ Complete documentation and usage guides
-
-### Roadmap
-- **v1.1.0**: Add notebook templates for each use case
-- **v1.2.0**: Enhanced create_project.py with interactive prompts
-- **v2.0.0**: Cookiecutter integration for easier project generation
-
-## Contributing
-
-This is primarily a portfolio/framework project, but suggestions and improvements are welcome!
-
-- **Found a bug?** Open an issue
-- **Have an enhancement idea?** Start a discussion
-- **Want to contribute?** See [CONTRIBUTING.md](template/CONTRIBUTING.md) for guidelines
+| Project | Description |
+|---------|-------------|
+| [telecom-ml-portfolio](https://github.com/adityonugrohoid/telecom-ml-portfolio) | Index of all implemented portfolio projects built from this framework |
+| [telecom-churn-prediction](https://github.com/adityonugrohoid/telecom-churn-prediction) | UC1 implementation: binary classification on customer QoE degradation patterns |
+| [telecom-root-cause-analysis](https://github.com/adityonugrohoid/telecom-root-cause-analysis) | UC2 implementation: alarm-sequence ranking with causal graph output |
+| [telecom-anomaly-detection](https://github.com/adityonugrohoid/telecom-anomaly-detection) | UC3 implementation: unsupervised cell tower KPI monitoring |
+| [telecom-qoe-prediction](https://github.com/adityonugrohoid/telecom-qoe-prediction) | UC4 implementation: MOS score regression from session-level network KPIs |
+| [telecom-capacity-forecasting](https://github.com/adityonugrohoid/telecom-capacity-forecasting) | UC5 implementation: traffic load forecasting with seasonal decomposition |
+| [telecom-network-optimization](https://github.com/adityonugrohoid/telecom-network-optimization) | UC6 implementation: RL-based parameter tuning for KPI improvement |
 
 ## License
 
-This framework is released under the **MIT License** - feel free to use it for learning, portfolio building, or commercial projects.
-
-See [LICENSE](LICENSE) for full details.
-
-## Acknowledgments
-
-**Framework structure inspired by:**
-- [cookiecutter-data-science](https://github.com/drivendata/cookiecutter-data-science) - Project templates for data science
-- [scikit-learn-contrib](https://github.com/scikit-learn-contrib) - ML framework organization
-- [FastAPI](https://github.com/tiangolo/fastapi) - Documentation best practices
-
-**Telecom domain knowledge from:**
-- 3GPP standards (LTE, 5G NR)
-- ITU-T QoE recommendations
-- 19+ years in network operations and optimization
+This project is licensed under the [MIT License](LICENSE).
 
 ## Author
 
-**Adityo Nugroho**  
-- Portfolio: https://adityonugrohoid.github.io  
-- GitHub: https://github.com/adityonugrohoid  
-- LinkedIn: https://www.linkedin.com/in/adityonugrohoid/
-
----
-
-*Last Updated: January 2025 | Framework Status: Stable (v1.0.0)*
+**Adityo Nugroho** ([@adityonugrohoid](https://github.com/adityonugrohoid))
