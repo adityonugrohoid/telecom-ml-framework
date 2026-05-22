@@ -2,7 +2,8 @@
 
 # Telecom ML Framework
 
-[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://www.python.org/downloads/)
+[![uv](https://img.shields.io/badge/uv-package%20manager-blueviolet)](https://github.com/astral-sh/uv)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **Spec-first ML project templates and domain-informed data generators for 6 telecom use cases**
@@ -220,13 +221,13 @@ telecom-ml-framework/
 
 | Project | Description |
 |---------|-------------|
-| [telecom-ml-portfolio](https://github.com/adityonugrohoid/telecom-ml-portfolio) | Index of all implemented portfolio projects built from this framework |
-| [telecom-churn-prediction](https://github.com/adityonugrohoid/telecom-churn-prediction) | UC1 implementation: binary classification on customer QoE degradation patterns |
-| [telecom-root-cause-analysis](https://github.com/adityonugrohoid/telecom-root-cause-analysis) | UC2 implementation: alarm-sequence ranking with causal graph output |
-| [telecom-anomaly-detection](https://github.com/adityonugrohoid/telecom-anomaly-detection) | UC3 implementation: unsupervised cell tower KPI monitoring |
-| [telecom-qoe-prediction](https://github.com/adityonugrohoid/telecom-qoe-prediction) | UC4 implementation: MOS score regression from session-level network KPIs |
-| [telecom-capacity-forecasting](https://github.com/adityonugrohoid/telecom-capacity-forecasting) | UC5 implementation: traffic load forecasting with seasonal decomposition |
-| [telecom-network-optimization](https://github.com/adityonugrohoid/telecom-network-optimization) | UC6 implementation: RL-based parameter tuning for KPI improvement |
+| [telecom-ml-portfolio](https://github.com/adityonugrohoid/telecom-ml-portfolio) | Index of 6 end-to-end telecom ML projects on synthetic network data |
+| [telecom-churn-prediction](https://github.com/adityonugrohoid/telecom-churn-prediction) | Binary classification predicting subscriber churn (XGBoost, AUROC 0.86) |
+| [telecom-root-cause-analysis](https://github.com/adityonugrohoid/telecom-root-cause-analysis) | Multi-class ranking of root causes in alarm cascades (XGBoost, Acc@1 0.91) |
+| [telecom-anomaly-detection](https://github.com/adityonugrohoid/telecom-anomaly-detection) | Unsupervised cell-level anomaly detection on KPI time-series (Isolation Forest, F1 0.70) |
+| [telecom-qoe-prediction](https://github.com/adityonugrohoid/telecom-qoe-prediction) | Session-level MOS regression from network KPIs (LightGBM, RMSE 0.45) |
+| [telecom-capacity-forecasting](https://github.com/adityonugrohoid/telecom-capacity-forecasting) | Hourly per-cell traffic forecasting (LightGBM, MAPE 14.5%) |
+| [telecom-network-optimization](https://github.com/adityonugrohoid/telecom-network-optimization) | RL-based RAN parameter tuning (Q-Learning, +61% vs random) |
 
 ## License
 
